@@ -20,6 +20,12 @@ my_posts = [
 ]
 
 
+def find_post(id):
+    for p in my_posts:
+        if p["id"] == id:
+            return p
+
+
 app = FastAPI()
 
 
@@ -34,7 +40,7 @@ def get_posts():
 
 
 @app.post("/posts")
-def post_posts(payload: Post):
+def create_post(payload: Post):
     print(payload)
     print(payload.dict())
 
@@ -43,3 +49,11 @@ def post_posts(payload: Post):
     my_posts.append(post_dict)
 
     return {"data": post_dict}
+
+
+@app.get("/posts/{id}")
+def get_post(id: int):
+    print(f"Looking for post id = {id}")
+    post = find_post(id)
+    print(post)
+    return {"data": post}
