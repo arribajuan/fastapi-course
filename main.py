@@ -39,7 +39,7 @@ def get_posts():
     return {"data": my_posts}
 
 
-@app.post("/posts")
+@app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_post(payload: Post):
     print(payload)
     print(payload.dict())
