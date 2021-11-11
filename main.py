@@ -57,6 +57,21 @@ def create_post(payload: Post):
     return {"data": post_dict}
 
 
+@app.put("/posts/{id}")
+def update_post(id: int, post: Post):
+    index = find_index_post(id)
+
+    if index == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Post with id={id} was not found")
+
+    post_dict = post.dict()
+    post_dict['id'] = id
+    my_posts[index] = post_dict
+
+    return {"data": post_dict}
+
+
 @app.get("/posts/{id}")
 def get_post(id: int, response: Response):
     print(f"Looking for post id = {id}")
